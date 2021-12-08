@@ -9,6 +9,7 @@ using Quiz_back.repositories;
 using Quiz_back.repositories.interfaces;
 using Quiz_back.services;
 using Quiz_back.services.interfaces;
+using System.Linq;
 
 namespace Quiz_back
 {
@@ -22,9 +23,24 @@ namespace Quiz_back
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        private string Headers = 
+            "Authorization,Accept,Content-Type,Accept-Encoding,Accept-Language,Connection,Cookie," +
+            "Host,Origin,Referer,Sec-Fetch-Dest,Sec-Fetch-Mode,Sec-Fetch-Site,User-Agent";
+        private string Methods = "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS";
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("GlobalCors",
+                builder =>
+                {
+                    builder.WithHeaders(Headers.Trim().Split(",").ToArray());
+                    builder.WithExposedHeaders("Set-Cookie");
+                    builder.WithOrigins("http://localhost:3000", "http://localhost:5000", "https://localhost:5001", "http://localhost:55780", "http://localhost:44370");
+                    builder.WithMethods(Methods.Trim().Split(",").ToArray());
+                    builder.AllowCredentials();
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
