@@ -30,7 +30,7 @@ namespace Quiz_back.Controllers
                 Description = quizDto.Description,
                 Image  = quizDto.Image,
                 QuizPassword = quizDto.QuizPassword,
-                Tags = quizDto.Tags,
+                Tags = quizDto.Tag,
                 Status = STATUT.DRAFT
             };
 
@@ -52,10 +52,13 @@ namespace Quiz_back.Controllers
         {
             return new QuizCardDto
             {
+                Id = quiz.Id,
                 Name = quiz.Name,
                 Status = (int)quiz.Status,
+                Theme = (int)quiz.Theme,
                 Description = quiz.Description,
                 Image = quiz.Image, 
+                Tags = quiz.Tags
             };
         }
 
@@ -68,7 +71,7 @@ namespace Quiz_back.Controllers
                 Description = quizDto.Description,
                 Image = quizDto.Image,
                 QuizPassword = quizDto.QuizPassword,
-                Tags = quizDto.Tags,
+                Tags = quizDto.Tag,
                 Status = STATUT.DRAFT
             };
         }

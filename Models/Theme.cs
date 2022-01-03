@@ -5,7 +5,9 @@
         MATHS = 1,
         ART,
         SPORT,
-        PHYSICAL
+        PHYSICAL,
+        ANIME,
+        MANGAS
     }
 
     public enum STATUT
