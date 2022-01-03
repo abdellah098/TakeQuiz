@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Quiz_back.Dto;
 using Quiz_back.models;
 using Quiz_back.Models;
-using Quiz_back.services;
+using Microsoft.AspNetCore.Http;
 using Quiz_back.services.interfaces;
 using System.Linq;
 using System.Collections.Generic;
+using System;
+
 namespace Quiz_back.Controllers
 {
     [ApiController]
@@ -47,7 +48,23 @@ namespace Quiz_back.Controllers
             [FromQuery] int status,
             [FromQuery] string names)
             => _quizService.SearchQuiz(theme, status, names).Select(quiz => TransformQuizToCard(quiz)).ToList();
-        
+
+        [HttpPatch("/quiz/{id:Guid}")]
+        public QuizCardDto PatchQuizInfos(PatchQuiz dto, Guid id)
+        {
+            var quiz = _quizService.Read(id);
+            if (quiz == null)
+            {
+                return null;
+            }
+
+            quiz.Name = dto.Name;
+            quiz.Description = dto.Description;
+            quiz.Theme = (Theme)dto.Theme;
+
+            return TransformQuizToCard(_quizService.Update(quiz));
+        }
+
         private QuizCardDto TransformQuizToCard(Quiz quiz)
         {
             return new QuizCardDto
