@@ -1,7 +1,9 @@
-﻿using Quiz_back.Models;
+﻿using Quiz_back.Dto;
+using Quiz_back.Models;
 using Quiz_back.repositories.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Quiz_back.repositories
 {
@@ -39,5 +41,6 @@ namespace Quiz_back.repositories
 
             return UpdatedQuestion.Entity;
         }
-    }
+
+           }
 }

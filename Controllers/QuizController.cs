@@ -65,6 +65,18 @@ namespace Quiz_back.Controllers
             return TransformQuizToCard(_quizService.Update(quiz));
         }
 
+        [HttpPost("/Quiz/{id:Guid}/questions")]
+        public bool PostQuestionAnswers(List<QuestionDto> questions, Guid id)
+        {
+            try
+            {
+                return _quizService.SaveQuizQuestions(questions, id);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         private QuizCardDto TransformQuizToCard(Quiz quiz)
         {
             return new QuizCardDto

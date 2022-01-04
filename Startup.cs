@@ -35,7 +35,7 @@ namespace Quiz_back
                 {
                     builder.WithHeaders(Headers.Trim().Split(",").ToArray());
                     builder.WithExposedHeaders("Set-Cookie");
-                    builder.WithOrigins("http://localhost:3000","http://localhost:5000", "https://localhost:5001", "http://localhost:55780", "http://localhost:44370");
+                    builder.WithOrigins("http://localhost:3000", "http://localhost:5000", "https://localhost:5001", "http://localhost:55780", "http://localhost:44370");
                     builder.WithMethods(Methods.Trim().Split(",").ToArray());
                     builder.AllowCredentials();
                 });
@@ -49,6 +49,9 @@ namespace Quiz_back
 
             services.AddTransient<IQuizRepository, QuizRepository>();
             services.AddTransient<IQuizService, QuizService>();
+
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IAnswerRepository, AnswerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

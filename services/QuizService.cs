@@ -1,10 +1,11 @@
-﻿using Quiz_back.models;
+﻿using Quiz_back.Dto;
+using Quiz_back.models;
 using Quiz_back.repositories.interfaces;
 using Quiz_back.services.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Quiz_back.services
 {
@@ -38,5 +39,7 @@ namespace Quiz_back.services
             }
             return searchResult;
         }
+
+        public bool SaveQuizQuestions(List<QuestionDto> questions, Guid quizId) => _quizRepository.SaveQuizQuestions(questions, quizId);
     }
 }
