@@ -2,7 +2,6 @@
 using Quiz_back.Dto;
 using Quiz_back.models;
 using Quiz_back.Models;
-using Microsoft.AspNetCore.Http;
 using Quiz_back.services.interfaces;
 using System.Linq;
 using System.Collections.Generic;
@@ -79,10 +78,25 @@ namespace Quiz_back.Controllers
         }
 
         [HttpGet("/Quiz/{id:Guid}/questions")]
-        public List<QuestionDto> getQuestionAnswers(Guid id)
+        public List<QuestionDto> GetQuestionAnswers(Guid id)
         {
             return _quizService.getQuestionAnswers(id);
         }
+
+        [HttpGet("/Quiz/{id:Guid}/test-questions")]
+        public Object GetQuizTestQuestions(Guid id)
+        {
+            var questions = _quizService.getQuestionAnswers(id).Select(question => {
+                return new
+                {
+                    Id = question.Id,
+                    Text = question.Text,
+                    Answers = question.Answers.Select(answer => new { Id = answer.Id, Text = answer.Text, isCorrect = false})
+                };
+            });
+            return questions;
+        }
+       
         private QuizCardDto TransformQuizToCard(Quiz quiz)
         {
             return new QuizCardDto
