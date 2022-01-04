@@ -12,6 +12,6 @@ namespace Quiz_back.repositories.interfaces
         public Quiz Read(Guid Id);
         public Quiz Update(Quiz question);
         public Quiz Delete(Quiz question);
-        public bool SaveQuizQuestions(List<QuestionDto> question, Guid quizId);
+        public bool SaveQuizQuestions(List<QuestionDto> question, Guid quizId, int status);
     }
 }

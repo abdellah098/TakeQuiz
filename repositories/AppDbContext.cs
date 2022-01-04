@@ -15,5 +15,10 @@ namespace Quiz_back.repositories
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
+        {
+            optionBuilder.UseLazyLoadingProxies();
+        }
+
     }
 }

@@ -13,6 +13,8 @@ namespace Quiz_back.services.interfaces
         public Quiz Update(Quiz q);
         public Quiz Delete(Quiz q);
         public IEnumerable<Quiz> SearchQuiz(int theme, int status, string names);
-        public bool SaveQuizQuestions(List<QuestionDto> question, Guid quizId);
+        public bool SaveQuizQuestions(List<QuestionDto> question, Guid quizId, int status);
+        public List<QuestionDto> getQuestionAnswers(Guid quizId);
+       
     }
 }

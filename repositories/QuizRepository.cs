@@ -46,7 +46,7 @@ namespace Quiz_back.repositories
 
         public Quiz Read(Guid Id) => _context.Quiz.Find(Id);
 
-        public bool SaveQuizQuestions(List<QuestionDto> questions, Guid quizId)
+        public bool SaveQuizQuestions(List<QuestionDto> questions, Guid quizId, int status)
         {
             var quiz = _context.Quiz.Find(quizId);
             if (quiz != null)
@@ -65,7 +65,10 @@ namespace Quiz_back.repositories
 
                 quiz.Questions.Clear();
                 quiz.Questions = quizQuestions;
-
+                if(status == 1)
+                {
+                    quiz.Status = STATUT.PUBLISH;
+                }
                 _context.Quiz.Update(quiz);
                 _context.SaveChanges();
 

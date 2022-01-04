@@ -66,16 +66,22 @@ namespace Quiz_back.Controllers
         }
 
         [HttpPost("/Quiz/{id:Guid}/questions")]
-        public bool PostQuestionAnswers(List<QuestionDto> questions, Guid id)
+        public bool PostQuestionAnswers(List<QuestionDto> questions, Guid id, [FromQuery] int status)
         {
             try
             {
-                return _quizService.SaveQuizQuestions(questions, id);
+                return _quizService.SaveQuizQuestions(questions, id, status);
             }
             catch (Exception ex)
             {
                 return false;
             }
+        }
+
+        [HttpGet("/Quiz/{id:Guid}/questions")]
+        public List<QuestionDto> getQuestionAnswers(Guid id)
+        {
+            return _quizService.getQuestionAnswers(id);
         }
         private QuizCardDto TransformQuizToCard(Quiz quiz)
         {

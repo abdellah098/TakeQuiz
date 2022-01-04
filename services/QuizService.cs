@@ -40,6 +40,25 @@ namespace Quiz_back.services
             return searchResult;
         }
 
-        public bool SaveQuizQuestions(List<QuestionDto> questions, Guid quizId) => _quizRepository.SaveQuizQuestions(questions, quizId);
+        public bool SaveQuizQuestions(List<QuestionDto> questions, Guid quizId, int status) => _quizRepository.SaveQuizQuestions(questions, quizId, status);
+
+        public List<QuestionDto> getQuestionAnswers(Guid quizId)
+        {
+            var quiz = Read(quizId);
+            if( quiz == null)
+            {
+                return null;
+            }
+
+            return quiz.Questions.Select(question =>
+            {
+               return new QuestionDto
+               {
+                   Id = question.Id,
+                   Text = question.Text,
+                   Answers = question.Answers.Select(answer => new AnswerDTO { Id = answer.Id, Text = answer.Text, isCorrect = answer.IsCorrect }).ToList()
+               };
+            }).ToList();
+        }
     }
 }
