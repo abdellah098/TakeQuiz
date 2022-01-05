@@ -15,6 +15,8 @@ namespace Quiz_back.services.interfaces
         public IEnumerable<Quiz> SearchQuiz(int theme, int status, string names);
         public bool SaveQuizQuestions(List<QuestionDto> question, Guid quizId, int status);
         public List<QuestionDto> getQuestionAnswers(Guid quizId);
-       
+
+        public QuizScoreDto EvaluateQuiz(Guid quizId, ResponseDto testResponse);
+
     }
 }

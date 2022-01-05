@@ -60,5 +60,43 @@ namespace Quiz_back.services
                };
             }).ToList();
         }
+
+        public QuizScoreDto EvaluateQuiz(Guid quizId, ResponseDto testResponse)
+        {
+            var quiz = Read(quizId);
+            if (quiz == null)
+            {
+                return new QuizScoreDto { Score = 0, NumberOfQuestion = 0 };
+            }
+            var score = new QuizScoreDto();
+            score.NumberOfQuestion = quiz.Questions.Count;
+
+            bool isCorrect = true;
+            foreach (var question in quiz.Questions)
+            {
+                var questionAnswered = testResponse.Questions.Find(q => q.Id == question.Id);
+
+                var answers = question.Answers.Where(answers => answers.IsCorrect).ToList();
+
+                if (questionAnswered.Answers.Count != answers.Count)
+                {
+                    score.Score += 0;
+                }
+                else
+                {
+                    foreach (var answer in questionAnswered.Answers)
+                    {
+                        if (!answers.Select(answer => answer.Id).ToList().Contains(answer.Id))
+                        {
+                            isCorrect = false;
+                        }
+                    }
+
+                    score.Score = isCorrect == false ? score.Score + 0 : score.Score + 1;
+                }
+
+            }
+            return score;
+        }
     }
 }

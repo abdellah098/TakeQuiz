@@ -96,6 +96,9 @@ namespace Quiz_back.Controllers
             });
             return questions;
         }
+
+        [HttpPost("/Quiz/{id:Guid}/evaluate")]
+        public QuizScoreDto EvaluateQuiz(Guid id, ResponseDto response) => _quizService.EvaluateQuiz(id, response);
        
         private QuizCardDto TransformQuizToCard(Quiz quiz)
         {
