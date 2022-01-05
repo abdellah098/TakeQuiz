@@ -1,5 +1,6 @@
 ﻿using Quiz_back.Dto;
 using Quiz_back.models;
+using Quiz_back.Models;
 using Quiz_back.repositories.interfaces;
 using Quiz_back.services.interfaces;
 using System;
@@ -12,9 +13,11 @@ namespace Quiz_back.services
     public class QuizService : IQuizService
     {
         private readonly IQuizRepository _quizRepository;
-        public QuizService(IQuizRepository quizRepository)
+        private readonly IPlayerRepository _playerRepository;
+        public QuizService(IQuizRepository quizRepository, IPlayerRepository playerRepository)
         {
             this._quizRepository = quizRepository;
+            this._playerRepository = playerRepository;
         }
         public Quiz Create(Quiz q) => _quizRepository.Create(q);
         public IEnumerable<Quiz> ReadAll() => _quizRepository.ReadAll();
@@ -96,6 +99,14 @@ namespace Quiz_back.services
                 }
 
             }
+
+            // classement des players
+            score.isRank =  RankPlayers(quizId, score.Score, testResponse.Pseudo);
+            score.Players = _playerRepository.ReadAll().OrderByDescending(player => player.Score).Select(player =>
+            {
+                return new PlayerDTO { Name = player.Name, score = player.Score };
+            }).ToList();
+
             return score;
         }
 
@@ -109,6 +120,41 @@ namespace Quiz_back.services
             char[] charsToTrim = { ' ' };
             return quizPassword.QuizPassword.Trim(charsToTrim) == quiz.QuizPassword.Trim(charsToTrim);
                
+        }
+       
+        private bool RankPlayers( Guid quizId, int score, string pseudo)
+        {
+            var players = _playerRepository.ReadAll().ToList();
+            if(players.Count <= 3)
+            {
+                // le premier Jouer
+                _playerRepository.Create(new Player { Name = pseudo, Score = score, QuizId = quizId });
+
+                return true;
+            }
+            else
+            {
+                players = players.OrderBy(player => player.Score).ToList();
+                Player playerToReplace = null;
+
+                foreach(var player in players)
+                {
+                    if(score > player.Score)
+                    {
+                        playerToReplace = player;
+                        break;
+                    }
+                }
+                if(playerToReplace != null)
+                {
+                    _playerRepository.Delete(playerToReplace);
+                    _playerRepository.Create(new Player { Name = pseudo, Score = score, QuizId = quizId });
+
+                    return true;
+                }
+
+                return false;
+            }
         }
     }
 }

@@ -51,6 +51,7 @@ namespace Quiz_back
             services.AddTransient<IQuizService, QuizService>();
 
             services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IAnswerRepository, AnswerRepository>();
         }
 
