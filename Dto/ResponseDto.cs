@@ -5,6 +5,7 @@ namespace Quiz_back.Dto
 {
     public class ResponseDto
     {
+        public string Pseudo { get; set; }
         public List<QuestionResponses> Questions { get; set; }
 
         public ResponseDto()
