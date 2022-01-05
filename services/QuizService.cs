@@ -98,5 +98,17 @@ namespace Quiz_back.services
             }
             return score;
         }
+
+        public bool LoginToQuiz(Guid quizId, UnlockQuizDto quizPassword)
+        {
+            var quiz = Read(quizId);
+            if(quiz == null || string.IsNullOrEmpty(quizPassword.QuizPassword))
+            {
+                return false;
+            }
+            char[] charsToTrim = { ' ' };
+            return quizPassword.QuizPassword.Trim(charsToTrim) == quiz.QuizPassword.Trim(charsToTrim);
+               
+        }
     }
 }

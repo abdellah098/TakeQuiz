@@ -18,5 +18,6 @@ namespace Quiz_back.services.interfaces
 
         public QuizScoreDto EvaluateQuiz(Guid quizId, ResponseDto testResponse);
 
+        public bool LoginToQuiz(Guid quizId, UnlockQuizDto quizPassword);
     }
 }

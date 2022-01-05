@@ -99,7 +99,10 @@ namespace Quiz_back.Controllers
 
         [HttpPost("/Quiz/{id:Guid}/evaluate")]
         public QuizScoreDto EvaluateQuiz(Guid id, ResponseDto response) => _quizService.EvaluateQuiz(id, response);
-       
+
+        [HttpPost("/Quiz/{id:Guid}/unlock")]
+        public bool LoginToQuiz(Guid id, UnlockQuizDto password) => _quizService.LoginToQuiz(id, password);
+
         private QuizCardDto TransformQuizToCard(Quiz quiz)
         {
             return new QuizCardDto
